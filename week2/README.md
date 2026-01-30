@@ -28,19 +28,20 @@ Overall, C delivers a faster performance for file I/O with lower overheads, espe
 Example Layout:
 project_root/
 │
-├── bin/                   <-- Compiled C code goes here
+├── bin/                  <-- compiled C code goes here
 │   ├── time_write
 │   └── time_read
 │
-├── data/                  <-- Output files goes here
+├── data/                 <-- output files goes here
 │   ├── c_output_23.txt
 │   ├── p_output_23.txt
 │   └── ...
 │
 └── week2/
-    └── src/               <-- source code is here
+    └── src/              <-- source code is here
         ├── time_write.c
         ├── time_read.c
         ├── time_write.py
         └── time_read.py
+
 
