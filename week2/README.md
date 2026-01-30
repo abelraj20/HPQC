@@ -37,7 +37,7 @@ time to read the file itself.
 
 Overall, C delivers a faster performance for file I/O with lower overheads, especially with large data, while Python remains practical for smaller workloads.
 
-## Example Layout:
+## Directory Layout:
 ```
 project_root/
 ├── bin/                  # compiled C code goes here
