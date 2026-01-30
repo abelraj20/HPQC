@@ -26,22 +26,21 @@ time to read the file itself.
 Overall, C delivers a faster performance for file I/O with lower overheads, especially with large data, while Python remains practical for smaller workloads.
 
 Example Layout:
+
+```
 project_root/
-│
-├── bin/                  <-- compiled C code goes here
+├── bin/                  # compiled C code goes here
 │   ├── time_write
 │   └── time_read
-│
-├── data/                 <-- output files goes here
+├── data/                 # output files goes here
 │   ├── c_output_23.txt
 │   ├── p_output_23.txt
 │   └── ...
-│
 └── week2/
-    └── src/              <-- source code is here
+    └── src/              # source code is here
         ├── time_write.c
         ├── time_read.c
         ├── time_write.py
         └── time_read.py
-
+```
 
