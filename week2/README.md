@@ -29,7 +29,7 @@ slightly slower than the C program. Regardless of the input size of the argument
 higher-level file I/O operations. 
 
 Table 1: Runtime and Real time values for Python and C file-writing and -reading code
-| Input Size | time_write.c runtime (s) | time_write.c real (s) | time_write.py runtime (s) | time_write.py real (s) | time_read.c runtime (s) | time_read.c real (s) | time_read.py runtime (s) | time_read.py real (s) |
+| Input Size | time_write.c runtime (s) | time_write.c real time (s) | time_write.py runtime (s) | time_write.py real time (s) | time_read.c runtime (s) | time_read.c real time (s) | time_read.py runtime (s) | time_read.py real time (s) |
 | :--------: | :-----------------: | :---------------: | :----------------: | :---------------: | :-----------------: | :---------------: | :----------------: | :---------------: |
 | 10¹        | 0.002               | 0.001             | 0.002              | 0.035             | 0.000035            | 0.000029          | 0.000173           | 0.034000          |
 | 10²        | 0.004               | 0.002             | 0.004              | 0.033             | 0.000053            | 0.000045          | 0.000351           | 0.032000          |
