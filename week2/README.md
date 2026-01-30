@@ -15,8 +15,8 @@ increased to 10^5, the runtime increased linearly to approximately 0.021 seconds
 Python showed similar trends, though with slightly higher runtimes. In table 1, for small input sizes, the core loop completed in roughly the same range as C, between 0.002 and 0.005 seconds. However, as the input grew to 10^5 numbers, the runtime increased to 0.032 seconds, 
 slightly slower than the C program. Regardless of the input size of the argument for the Python code, the real time had a value of at least 0.033 seconds. This difference shows the overhead of Python’s interpreter and its higher-level file I/O operations. 
 
-Table 1: Runtime and Real time Results for Python and C writing and reading code
-| Input Size | time_write.c runtime | time_write.c real | time_write.py runtime | time_write.py real | time_read.c runtime | time_read.c real | time_read.py runtime | time_read.py real |
+Table 1: Runtime and Real time values for Python and C file-writing and -reading code
+| Input Size | time_write.c runtime (s) | time_write.c real (s) | time_write.py runtime (s) | time_write.py real (s) | time_read.c runtime (s) | time_read.c real (s) | time_read.py runtime (s) | time_read.py real (s) |
 | :--------: | :-----------------: | :---------------: | :----------------: | :---------------: | :-----------------: | :---------------: | :----------------: | :---------------: |
 | 10¹        | 0.002               | 0.001             | 0.002              | 0.035             | 0.000035            | 0.000029          | 0.000173           | 0.034000          |
 | 10²        | 0.004               | 0.002             | 0.004              | 0.033             | 0.000053            | 0.000045          | 0.000351           | 0.032000          |
