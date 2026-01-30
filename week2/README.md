@@ -32,8 +32,7 @@ runtimes. This behaviour reflects the efficiency of C’s low-level file I/O and
 
 The Python file-reading results (time_read.py) showed a different pattern to the file-writing experiments. For very small files(10^1 - 10^2 input sizes), the measured runtime was slower by an order of ~10 compared to C. For an input size of 10^3, its runtime was approximately 
 twice as slow as its C counterpart. Finally, for input sizes of 10^4 - 10^5, Python was faster than C by an order of ~10 as seen in Table 1. The code having a real time of 0.032 second was still evident, making it slower overall. This reflected the interpreter and system 
-overhead rather than the 
-time to read the file itself.
+overhead rather than the time to read the file itself.
 
 Overall, C delivers a faster performance for file I/O with lower overheads, especially with large data, while Python remains practical for smaller workloads.
 
