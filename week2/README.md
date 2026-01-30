@@ -1,9 +1,11 @@
+## Code Instructions
 The source code for this project is located in the week2/src/ folder. To compile the C programs, navigate to week2/src/ and run `gcc time_write.c -o ../../bin/time_write` for the write program and `gcc time_read.c -o ../../bin/time_read` for the read program; this places the
 compiled binaries in the bin/ folder, which is two levels above src/. To run the C programs, navigate to the root project directory, where bin/ and data/ are located. The write program is executed with a numeric argument, for example `time ./bin/time_write 23`, which generates 
 an output file named `c_output_23.txt` in the data/ folder, while the read program is executed with the filename as an argument, for example `time ./bin/time_read c_output_23.txt`. The Python programs are run from the week2/src/ folder: `time_write.py` is executed with a 
 numeric argument, for example `time python3 time_write.py 23`, producing `p_output_23.txt` in the data/ folder, and `time_read.py` is executed with the output filename as an argument, for example `time python3 time_read.py p_output_23.txt`. All outputs are stored in the 
 `data/` folder, and the `bin/` folder contains the compiled C binaries. An example of how the directory layout should look is shown below.
 
+## Week 2 Findings
 This code investigates the performance differences between C and Python when performing basic file input/output (I/O) operations. Two pairs of programs were written: one pair to write a sequence of integers to a file and another pair to read the contents of that file back into 
 memory. For each language, the runtime of the core loop was measured internally within the program and overall execution time was also measured using the Linux time command. The goal was to observe how runtime scales with increasing input size and to compare the efficiency of 
 C and Python for these operations.
@@ -35,8 +37,7 @@ time to read the file itself.
 
 Overall, C delivers a faster performance for file I/O with lower overheads, especially with large data, while Python remains practical for smaller workloads.
 
-Example Layout:
-
+## Example Layout:
 ```
 project_root/
 ├── bin/                  # compiled C code goes here
