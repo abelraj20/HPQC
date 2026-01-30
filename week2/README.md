@@ -5,7 +5,7 @@ an output file named `c_output_23.txt` in the data/ folder, while the read progr
 numeric argument, for example `time python3 time_write.py 23`, producing `p_output_23.txt` in the data/ folder, and `time_read.py` is executed with the output filename as an argument, for example `time python3 time_read.py p_output_23.txt`. All outputs are stored in the 
 `data/` folder, and the `bin/` folder contains the compiled C binaries. An example of how the directory layout should look is shown below.
 
-## Week 2 Findings
+## Results and Analysis – Week 2
 This code investigates the performance differences between C and Python when performing basic file input/output (I/O) operations. Two pairs of programs were written: one pair to write a sequence of integers to a file and another pair to read the contents of that file back into 
 memory. For each language, the runtime of the core loop was measured internally within the program and overall execution time was also measured using the Linux time command. The goal was to observe how runtime scales with increasing input size and to compare the efficiency of 
 C and Python for these operations.
@@ -52,5 +52,4 @@ project_root/
         ├── time_write.c
         ├── time_read.c
         ├── time_write.py
-
 ```
