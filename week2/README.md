@@ -43,9 +43,9 @@ project_root/
         ├── time_read.c
         ├── time_write.py
 
+```
+
+
 | Attempt | #1    | #2    |
 | :-----: | :---: | :---: |
 | Seconds | 301   | 283   |
-        └── time_read.py
-```
-
