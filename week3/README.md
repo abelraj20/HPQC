@@ -15,6 +15,7 @@ The runtimes of the serial and MPI versions of the Hello World program showed a 
 This happened regardless of the number of simulated ranks due to it always executing on a single process. In contrast, the MPI program’s real time increased slightly as the number of processes grew (4 processes to 16 processes), from 0.417 seconds for 4 processes to a 
 peak of 0.473 seconds for 16 processes. The user and system times for MPI also increased significantly with the process count, exceeding the real time at higher numbers. 
 
+<div align="center">
 Table 1: Real, user and system times for serial execution (hello_mpi_serial.c) and MPI parallel execution (hello_mpi.c) of the Hello World program for varying numbers of processes
 | Program (.c) | Processes / Simulated ranks | Real time (s) | User time (s) | System  time (s) |
 | :--------: | :-----------------: | :---------------: | :----------------: | :---------------: |
@@ -26,6 +27,7 @@ Table 1: Real, user and system times for serial execution (hello_mpi_serial.c) a
 | Parallel   | 12              | 0.449             | 0.311              | 0.340             |
 | Serial     | 16              | 0.004             | 0.000              | 0.004             |
 | Parallel   | 16              | 0.473             | 0.360              | 0.496             |
+</div>
 
 From Table 1, at 16 processes, the user time is 0.360 seconds and the system time is 0.496 seconds. This gave a total CPU time greater than the clock time. This showed that multiple cores were active at the same time, even for these small workloads. This also showed 
 the overhead introduced by MPI initialisation and process management. Table 1 clearly shows that the serial program is many times faster in real time, thus confirming that parallelisation only provides a performance benefit when the computational workload is big 
@@ -67,6 +69,7 @@ From Table 2, the internal runtime values are consistently smaller than the exte
 the runtime is almost negligible, under 0.0002 s, while the real time is 0.004 s, indicating that initialisation and I/O overhead are large at these sizes. As the vector size increases, the runtime grows roughly linearly with the number of elements, reaching nearly 1 
 s for 10^8 elements as seen in Table 2. The external real, user and system times also increase but the internal runtime is quicker for each test, suggesting that most of the execution cost is from computation. 
 
+<div align="center">
 Table 2: Internal (runtime) and external (real, user and system time) benchmarking of non-trivial code (vector_serial_new.c) for varying numbers of vector elements
 | Vector Elements | Runtime (s) | Real time (s) | User time (s) | System time (s) |
 | :-----------------:| :---------------: | :---------------: | :----------------: | :---------------: |
@@ -78,6 +81,7 @@ Table 2: Internal (runtime) and external (real, user and system time) benchmarki
 | 10⁶             | 0.015093         | 0.019000           | 0.011000           | 0.008000          |
 | 10⁷             | 0.099800         | 0.104000           | 0.084000           | 0.017000          |
 | 10⁸             | 0.946265         | 0.945000           | 0.772000           | 0.172000          |
+</div>
 
 Overall, this shows that `vector_serial_new.c` scales as expected and the internal benchmarking provides a clearer picture of the actual computation time, separate from the overhead. For small vector sizes, the overhead is the largest contributor, while for vector 
 sizes multiple magnitudes bigger, the runtime itself is the main contributor.
@@ -99,6 +103,7 @@ The parallel version (vector_parallel) has higher overhead for small vectors as 
 runtime for small vectors. As the vector size grows, the parallel version starts to catch up to the serial version. By 10^7 or 10^8 elements, its real time approaches that of vector_serial_new. Even at 10^8, the parallel version is slightly slower in real time (1.137 
 s vs 0.945 s as seen in Table 3), though it spreads the computation across processes.
 
+<div align="center">
 Table 3: Real, user and system times of base (vector_serial.c), non-trivial (vector_serial_new.c) and parallel (vector_parallel.c) code for varying numbers of vector elements
 | Program (.c) | Vector Elements | Sum | Real time (s) | User time (s) | System  time (s) |
 | :--------: | :-----------------:| :---------------: | :---------------: | :----------------: | :---------------: |
@@ -126,6 +131,7 @@ Table 3: Real, user and system times of base (vector_serial.c), non-trivial (vec
 | vector_serial     | 10⁸             | 0                 | 0.705              | 0.513              | 0.192             |
 | vector_serial_new | 10⁸             | 5000000050000000  | 0.945              | 0.772              | 0.172             |
 | vector_parallel   | 10⁸             | 5000000050000000  | 1.137              | 2.437              | 0.541             |
+</div>
 
 From these results, the parallel version real time does not outperform the non-trivial serial version within the tested range. Even for vector sizes greater than 10^8, it is likely that the parallel code will continue to lag behind on this system. This suggests that 
 the program does not scale well with the current setup and that a larger or more complex parallel system would be required to achieve a clear improvement.
