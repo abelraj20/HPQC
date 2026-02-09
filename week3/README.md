@@ -72,6 +72,7 @@ the runtime is almost negligible, under 0.0002 s, while the real time is 0.004 s
 s for 10^8 elements as seen in Table 2. The external real, user and system times also increase but the internal runtime is quicker for each test, suggesting that most of the execution cost is from computation. 
 
 <div align="center">
+    
 Table 2: Internal (runtime) and external (real, user and system time) benchmarking of non-trivial code (vector_serial_new.c) for varying numbers of vector elements
 | Vector Elements | Runtime (s) | Real time (s) | User time (s) | System time (s) |
 | :-----------------:| :---------------: | :---------------: | :----------------: | :---------------: |
@@ -83,6 +84,7 @@ Table 2: Internal (runtime) and external (real, user and system time) benchmarki
 | 10⁶             | 0.015093         | 0.019000           | 0.011000           | 0.008000          |
 | 10⁷             | 0.099800         | 0.104000           | 0.084000           | 0.017000          |
 | 10⁸             | 0.946265         | 0.945000           | 0.772000           | 0.172000          |
+
 </div>
 
 Overall, this shows that `vector_serial_new.c` scales as expected and the internal benchmarking provides a clearer picture of the actual computation time, separate from the overhead. For small vector sizes, the overhead is the largest contributor, while for vector 
@@ -106,6 +108,7 @@ runtime for small vectors. As the vector size grows, the parallel version starts
 s vs 0.945 s as seen in Table 3), though it spreads the computation across processes.
 
 <div align="center">
+    
 Table 3: Real, user and system times of base (vector_serial.c), non-trivial (vector_serial_new.c) and parallel (vector_parallel.c) code for varying numbers of vector elements
 | Program (.c) | Vector Elements | Sum | Real time (s) | User time (s) | System  time (s) |
 | :--------: | :-----------------:| :---------------: | :---------------: | :----------------: | :---------------: |
@@ -133,6 +136,7 @@ Table 3: Real, user and system times of base (vector_serial.c), non-trivial (vec
 | vector_serial     | 10⁸             | 0                 | 0.705              | 0.513              | 0.192             |
 | vector_serial_new | 10⁸             | 5000000050000000  | 0.945              | 0.772              | 0.172             |
 | vector_parallel   | 10⁸             | 5000000050000000  | 1.137              | 2.437              | 0.541             |
+
 </div>
 
 From these results, the parallel version real time does not outperform the non-trivial serial version within the tested range. Even for vector sizes greater than 10^8, it is likely that the parallel code will continue to lag behind on this system. This suggests that 
