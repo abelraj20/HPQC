@@ -13,9 +13,9 @@ is shown below.
 ### Part 1:
 The runtimes of the serial and MPI versions of the Hello World program showed a clear difference between the serial and parallel versions of the programs. For the serial program, the real time remained almost constant around 0.004–0.005 seconds as seen in Table 1. 
 This happened regardless of the number of simulated ranks due to it always executing on a single process. In contrast, the MPI program’s real time increased slightly as the number of processes grew (4 processes to 16 processes), from 0.417 seconds for 4 processes to a 
-peak of 0.473 seconds for 16 processes. The user and system times for MPI also increased significantly with the process count, exceeding the real time at higher numbers. From Table 1, at 16 processes, the user time is 0.360 seconds and the system time is 0.496 
-seconds. This gave a total CPU time greater than the clock time. This showed that multiple cores were active at the same time, even for these small workloads. This also showed the overhead introduced by MPI initialisation and process management. Table 1 clearly shows 
-that the serial program is many times faster in real time, thus confirming that parallelisation only provides a performance benefit when the computational workload is big enough to offset the MPI overhead.
+peak of 0.473 seconds for 16 processes. The user and system times for MPI also increased significantly with the process count, exceeding the real time at higher numbers. 
+
+From Table 1, at 16 processes, the user time is 0.360 seconds and the system time is 0.496 seconds. This gave a total CPU time greater than the clock time. This showed that multiple cores were active at the same time, even for these small workloads. This also showed the overhead introduced by MPI initialisation and process management. Table 1 clearly shows that the serial program is many times faster in real time, thus confirming that parallelisation only provides a performance benefit when the computational workload is big enough to offset the MPI overhead.
 
 Table 1: Real, user and system times for serial execution and MPI parallel execution of the Hello World program for varying numbers of processes
 | Program | Processes / Simulated ranks | Real time (s) | User time (s) | System  time (s) |
@@ -62,7 +62,9 @@ vector with consecutive numbers (1, 2, 3,..., n where n is the vector size) inst
 as the base code.
 
 From Table 2, the internal runtime values are consistently smaller than the external real time, showing that the program itself executes very quickly and most of the external time is spent in system overhead or user-level processing. For very small vectors (10¹–10³), 
-the runtime is almost negligible, under 0.0002 s, while the real time is 0.004 s, indicating that initialisation and I/O overhead are large at these sizes. As the vector size increases, the runtime grows roughly linearly with the number of elements, reaching nearly 1 s for 10^8 elements as seen in Table 2. The external real, user and system times also increase but the internal runtime is quicker for each test, suggesting that most of the execution cost is from computation. Overall, this shows that `vector_serial_new.c` scales as expected and the internal benchmarking provides a clearer picture of the actual computation time, separate from the overhead. For small vector sizes, the overhead is the largest contributor, while for vector sizes multiple magnitudes bigger, the runtime itself is the main contributor.
+the runtime is almost negligible, under 0.0002 s, while the real time is 0.004 s, indicating that initialisation and I/O overhead are large at these sizes. As the vector size increases, the runtime grows roughly linearly with the number of elements, reaching nearly 1 s for 10^8 elements as seen in Table 2. The external real, user and system times also increase but the internal runtime is quicker for each test, suggesting that most of the execution cost is from computation. 
+
+Overall, this shows that `vector_serial_new.c` scales as expected and the internal benchmarking provides a clearer picture of the actual computation time, separate from the overhead. For small vector sizes, the overhead is the largest contributor, while for vector sizes multiple magnitudes bigger, the runtime itself is the main contributor.
 
 Table 2: Internal (runtime) and external (real, user and system time) benchmarking time values for non-trivial code (vector_serial_new) for varying numbers of vector elements
 | Vector Elements | Runtime (s) | Real time (s) | User time (s) | System time (s) |
@@ -78,11 +80,7 @@ Table 2: Internal (runtime) and external (real, user and system time) benchmarki
 
 #### (c) Parallel Version (vector_parallel.c)
 
-First, the MPI environment is initialised by getting the rank and total number of processes. Only the root process (rank 0) reads the command-line argument and 
-allocates the full vector, which is then filled with values similar to the serial version. Next, the vector is split into chunks so each process approximately gets an equal number of 
-elements, with any extra sent to higher ranks. Each process allocates memory for its own local chunk. The "MPI_Scatterv" function is used to distribute the chunks from the root to all 
-processes. Each process then computes the sum of its chunk locally. These partials are combined using "MPI_Reduce". This collects all local sums and produces the total sum on rank 0. 
-Lastly, rank 0 prints the final total sum and all the allocated memory is freed before calling "MPI_Finalize". Four processors were used when running the code for benchmarking.
+First, the MPI environment is initialised by getting the rank and total number of processes. Only the root process (rank 0) reads the command-line argument and allocates the full vector, which is then filled with values similar to the serial version. Next, the vector is split into chunks so each process approximately gets an equal number of elements, with any extra sent to higher ranks. Each process allocates memory for its own local chunk. The "MPI_Scatterv" function is used to distribute the chunks from the root to all processes. Each process then computes the sum of its chunk locally. These partials are combined using "MPI_Reduce". This collects all local sums and produces the total sum on rank 0. Lastly, rank 0 prints the final total sum and all the allocated memory is freed before calling "MPI_Finalize". Four processors were used when running the code for benchmarking.
 
 #### (d) Benchmarking
 
