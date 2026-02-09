@@ -72,30 +72,30 @@ parallel version is slightly slower in real time (1.137 s vs 0.945 s as seen in 
 Table 2: Real, user and system times of base (vector_serial), non-trivial (vector_serial_new) and parallel (vector_parallel) code for varying numbers of vector elements
 | Program | Vector Elements | Sum | Real time (s) | User time (s) | System  time (s) |
 | :--------: | :-----------------:| :---------------: | :---------------: | :----------------: | :---------------: |
-| vector_serial     | 10^1            | 0                 | 0.004              | 0.004              | 0.000             |
-| vector_serial_new | 10^1            | 55                | 0.004              | 0.000              | 0.004             |
-| vector_parallel   | 10^1            | 55                | 0.411              | 0.130              | 0.149             |
-| vector_serial     | 10^2            | 0                 | 0.004              | 0.000              | 0.003             |
-| vector_serial_new | 10^2            | 5050              | 0.004              | 0.203              | 0.004             |
-| vector_parallel   | 10^2            | 5050              | 0.414              | 0.119              | 0.156             |
-| vector_serial     | 10^3            | 0                 | 0.004              | 0.000              | 0.003             |
-| vector_serial_new | 10^3            | 500500            | 0.004              | 0.311              | 0.004             |
-| vector_parallel   | 10^3            | 500500            | 0.412              | 0.150              | 0.121             |
-| vector_serial     | 10^4            | 0                 | 0.004              | 0.000              | 0.003             |
-| vector_serial_new | 10^4            | 50005000          | 0.004              | 0.360              | 0.004             |
-| vector_parallel   | 10^4            | 50005000          | 0.405              | 0.141              | 0.132             |
-| vector_serial     | 10^5            | 0                 | 0.006              | 0.000              | 0.005             |
-| vector_serial_new | 10^5            | 5000050000        | 0.007              | 0.003              | 0.003             |
-| vector_parallel   | 10^5            | 5000050000        | 0.412              | 0.134              | 0.149             |
-| vector_serial     | 10^6            | 0                 | 0.019              | 0.018              | 0.000             |
-| vector_serial_new | 10^6            | 500000500000      | 0.019              | 0.011              | 0.008             |
-| vector_parallel   | 10^6            | 500000500000      | 0.421              | 0.155              | 0.153             |
-| vector_serial     | 10^7            | 0                 | 0.080              | 0.056              | 0.024             |
-| vector_serial_new | 10^7            | 50000005000000    | 0.104              | 0.084              | 0.017             |
-| vector_parallel   | 10^7            | 50000005000000    | 0.480              | 0.377              | 0.173             |
-| vector_serial     | 10^8            | 0                 | 0.705              | 0.513              | 0.192             |
-| vector_serial_new | 10^8            | 5000000050000000  | 0.945              | 0.772              | 0.172             |
-| vector_parallel   | 10^8            | 5000000050000000  | 1.137              | 2.437              | 0.541             |
+| vector_serial     | 10¹             | 0                 | 0.004              | 0.004              | 0.000             |
+| vector_serial_new | 10¹             | 55                | 0.004              | 0.000              | 0.004             |
+| vector_parallel   | 10¹             | 55                | 0.411              | 0.130              | 0.149             |
+| vector_serial     | 10²             | 0                 | 0.004              | 0.000              | 0.003             |
+| vector_serial_new | 10²             | 5050              | 0.004              | 0.203              | 0.004             |
+| vector_parallel   | 10²             | 5050              | 0.414              | 0.119              | 0.156             |
+| vector_serial     | 10³             | 0                 | 0.004              | 0.000              | 0.003             |
+| vector_serial_new | 10³             | 500500            | 0.004              | 0.311              | 0.004             |
+| vector_parallel   | 10³             | 500500            | 0.412              | 0.150              | 0.121             |
+| vector_serial     | 10⁴             | 0                 | 0.004              | 0.000              | 0.003             |
+| vector_serial_new | 10⁴             | 50005000          | 0.004              | 0.360              | 0.004             |
+| vector_parallel   | 10⁴             | 50005000          | 0.405              | 0.141              | 0.132             |
+| vector_serial     | 10⁵             | 0                 | 0.006              | 0.000              | 0.005             |
+| vector_serial_new | 10⁵             | 5000050000        | 0.007              | 0.003              | 0.003             |
+| vector_parallel   | 10⁵             | 5000050000        | 0.412              | 0.134              | 0.149             |
+| vector_serial     | 10⁶             | 0                 | 0.019              | 0.018              | 0.000             |
+| vector_serial_new | 10⁶             | 500000500000      | 0.019              | 0.011              | 0.008             |
+| vector_parallel   | 10⁶             | 500000500000      | 0.421              | 0.155              | 0.153             |
+| vector_serial     | 10⁷             | 0                 | 0.080              | 0.056              | 0.024             |
+| vector_serial_new | 10⁷             | 50000005000000    | 0.104              | 0.084              | 0.017             |
+| vector_parallel   | 10⁷             | 50000005000000    | 0.480              | 0.377              | 0.173             |
+| vector_serial     | 10⁸             | 0                 | 0.705              | 0.513              | 0.192             |
+| vector_serial_new | 10⁸             | 5000000050000000  | 0.945              | 0.772              | 0.172             |
+| vector_parallel   | 10⁸             | 5000000050000000  | 1.137              | 2.437              | 0.541             |
 
 From these results, the parallel version real time does not outperform the non-trivial serial version within the tested range. Even for vector sizes greater than 10^8, it is likely that the parallel code will continue to lag behind on this system. This suggests that the program does not scale well with the current setup and that a larger or more complex parallel system would be required to achieve a clear improvement.
 
