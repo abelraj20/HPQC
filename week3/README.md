@@ -51,6 +51,20 @@ In this updated program, it can handle larger vectors and sums safely. The "sum_
 updated to "%lld" as a result. A "fill_vector" was function also added to fill the vector with consecutive numbers (1, 2, 3,..., n where n is the vector size) instead of just zero. Also, 
 atoi was replaced with strtol in "check_args" for safer input validation, making sure only positive integers are accepted. The rest of the program was kept the same as the base code.
 
+
+
+Table 2: Internal (runtime) and external (real, user and system time) benchmarking time values for non-trivial code (vector_serial_new) for varying numbers of vector elements
+| Vector Elements | Runtime (s) | Real time (s) | User time (s) | System time (s) |
+| :-----------------:| :---------------: | :---------------: | :----------------: | :---------------: |
+| 10¹             | 0.000144         | 0.004000           | 0.000000           | 0.004000          |
+| 10²             | 0.000155         | 0.004000           | 0.203000           | 0.004000          |
+| 10³             | 0.000160         | 0.004000           | 0.311000           | 0.004000          |
+| 10⁴             | 0.000350         | 0.004000           | 0.360000           | 0.004000          |
+| 10⁵             | 0.002294         | 0.007000           | 0.003000           | 0.003000          |
+| 10⁶             | 0.015093         | 0.019000           | 0.011000           | 0.008000          |
+| 10⁷             | 0.099800         | 0.104000           | 0.084000           | 0.017000          |
+| 10⁸             | 0.946265         | 0.945000           | 0.772000           | 0.172000          |
+
 #### (c) Parallel Version (vector_parallel.c)
 
 First, the MPI environment is initialised by getting the rank and total number of processes. Only the root process (rank 0) reads the command-line argument and 
@@ -61,15 +75,15 @@ Lastly, rank 0 prints the final total sum and all the allocated memory is freed 
 
 #### (d) Benchmarking
 
-From table 2, the serial base code (vector_serial) doesn’t actually compute sums, which is why all its sums are zero. The updated serial code (vector_serial_new) correctly computes sums 
+From table 3, the serial base code (vector_serial) doesn’t actually compute sums, which is why all its sums are zero. The real time is seen to be equal for 10^1 to 10^6 elements or lower (10^7 and 10^8) than the non-trivial version. This is because it only has to add up values of 0's in the vector. This happens not just in the tested range but for all vector sizes as the base code converts all elements to 0. The updated serial code (vector_serial_new) correctly computes sums 
 up to very large numbers using "long long" and was tested from 10^1 to 10^8. Its real time stays very low (0.004 s) for small vectors and only starts increasing noticeably at 10^7 and 
 above. The parallel version (vector_parallel) has higher overhead for small vectors as seen in Table 2. For example, with 10^1 to 10^4 elements, it takes around 0.400 s compared to 
 0.004 s for the serial version. This shows that MPI communication and setup increase the runtime for small vectors.
 
 As the vector size grows, the parallel version starts to catch up to the serial version. By 10^7 or 10^8 elements, its real time approaches that of vector_serial_new. Even at 10^8, the 
-parallel version is slightly slower in real time (1.137 s vs 0.945 s as seen in Table 1), though it spreads the computation across processes.
+parallel version is slightly slower in real time (1.137 s vs 0.945 s as seen in Table 3), though it spreads the computation across processes.
 
-Table 2: Real, user and system times of base (vector_serial), non-trivial (vector_serial_new) and parallel (vector_parallel) code for varying numbers of vector elements
+Table 3: Real, user and system times of base (vector_serial), non-trivial (vector_serial_new) and parallel (vector_parallel) code for varying numbers of vector elements
 | Program | Vector Elements | Sum | Real time (s) | User time (s) | System  time (s) |
 | :--------: | :-----------------:| :---------------: | :---------------: | :----------------: | :---------------: |
 | vector_serial     | 10¹             | 0                 | 0.004              | 0.004              | 0.000             |
