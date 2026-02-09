@@ -16,7 +16,7 @@ This happened regardless of the number of simulated ranks due to it always execu
 peak of 0.473 seconds for 16 processes. The user and system times for MPI also increased significantly with the process count, exceeding the real time at higher numbers. 
 
 Table 1: Real, user and system times for serial execution (hello_mpi_serial.c) and MPI parallel execution (hello_mpi.c) of the Hello World program for varying numbers of processes
-| Program | Processes / Simulated ranks | Real time (s) | User time (s) | System  time (s) |
+| Program (.c) | Processes / Simulated ranks | Real time (s) | User time (s) | System  time (s) |
 | :--------: | :-----------------: | :---------------: | :----------------: | :---------------: |
 | Serial     | 4               | 0.005             | 0.000              | 0.004             |
 | Parallel   | 4               | 0.417             | 0.103              | 0.179             |
@@ -100,7 +100,7 @@ runtime for small vectors. As the vector size grows, the parallel version starts
 s vs 0.945 s as seen in Table 3), though it spreads the computation across processes.
 
 Table 3: Real, user and system times of base (vector_serial.c), non-trivial (vector_serial_new.c) and parallel (vector_parallel.c) code for varying numbers of vector elements
-| Program | Vector Elements | Sum | Real time (s) | User time (s) | System  time (s) |
+| Program (.c) | Vector Elements | Sum | Real time (s) | User time (s) | System  time (s) |
 | :--------: | :-----------------:| :---------------: | :---------------: | :----------------: | :---------------: |
 | vector_serial     | 10¹             | 0                 | 0.004              | 0.004              | 0.000             |
 | vector_serial_new | 10¹             | 55                | 0.004              | 0.000              | 0.004             |
