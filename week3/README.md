@@ -91,7 +91,7 @@ before calling "MPI_Finalize". Four processors were used when running the code f
 
 #### (d) Benchmarking
 
-From table 3, the serial base code (vector_serial) doesn’t actually compute sums, which is why all its sums are zero. The real time is seen to be equal for 10^1 to 10^6 elements or lower (10^7 and 10^8) than the non-trivial version. This is because it only has to add 
+From Table 3, the serial base code (vector_serial) doesn’t actually compute sums, which is why all its sums are zero. The real time is seen to be equal for 10^1 to 10^6 elements or lower (10^7 and 10^8) than the non-trivial version. This is because it only has to add 
 up values of 0's in the vector. This happens not just in the tested range but for all vector sizes as the base code converts all elements to 0. The updated serial code (vector_serial_new) correctly computes sums up to very large numbers using "long long" and was 
 tested from 10^1 to 10^8. Its real time stays very low (0.004 s) for small vectors and only starts increasing noticeably at 10^7 and above. 
 
