@@ -15,8 +15,6 @@ The runtimes of the serial and MPI versions of the Hello World program showed a 
 This happened regardless of the number of simulated ranks due to it always executing on a single process. In contrast, the MPI program’s real time increased slightly as the number of processes grew (4 processes to 16 processes), from 0.417 seconds for 4 processes to a 
 peak of 0.473 seconds for 16 processes. The user and system times for MPI also increased significantly with the process count, exceeding the real time at higher numbers. 
 
-From Table 1, at 16 processes, the user time is 0.360 seconds and the system time is 0.496 seconds. This gave a total CPU time greater than the clock time. This showed that multiple cores were active at the same time, even for these small workloads. This also showed the overhead introduced by MPI initialisation and process management. Table 1 clearly shows that the serial program is many times faster in real time, thus confirming that parallelisation only provides a performance benefit when the computational workload is big enough to offset the MPI overhead.
-
 Table 1: Real, user and system times for serial execution and MPI parallel execution of the Hello World program for varying numbers of processes
 | Program | Processes / Simulated ranks | Real time (s) | User time (s) | System  time (s) |
 | :--------: | :-----------------: | :---------------: | :----------------: | :---------------: |
@@ -28,6 +26,10 @@ Table 1: Real, user and system times for serial execution and MPI parallel execu
 | Parallel   | 12              | 0.449             | 0.311              | 0.340             |
 | Serial     | 16              | 0.004             | 0.000              | 0.004             |
 | Parallel   | 16              | 0.473             | 0.360              | 0.496             |
+
+From Table 1, at 16 processes, the user time is 0.360 seconds and the system time is 0.496 seconds. This gave a total CPU time greater than the clock time. This showed that multiple cores were active at the same time, even for these small workloads. This also showed 
+the overhead introduced by MPI initialisation and process management. Table 1 clearly shows that the serial program is many times faster in real time, thus confirming that parallelisation only provides a performance benefit when the computational workload is big 
+enough to offset the MPI overhead.
 
 ### Part 2:
 main(): This function starts by initialising MPI and checking the number of processes in the communicator and what ranks they have. It then calls check_args() to see if the argument is entered correctly. Then it calls check_uni_size() to see if there are enough 
@@ -62,9 +64,8 @@ vector with consecutive numbers (1, 2, 3,..., n where n is the vector size) inst
 as the base code.
 
 From Table 2, the internal runtime values are consistently smaller than the external real time, showing that the program itself executes very quickly and most of the external time is spent in system overhead or user-level processing. For very small vectors (10¹–10³), 
-the runtime is almost negligible, under 0.0002 s, while the real time is 0.004 s, indicating that initialisation and I/O overhead are large at these sizes. As the vector size increases, the runtime grows roughly linearly with the number of elements, reaching nearly 1 s for 10^8 elements as seen in Table 2. The external real, user and system times also increase but the internal runtime is quicker for each test, suggesting that most of the execution cost is from computation. 
-
-Overall, this shows that `vector_serial_new.c` scales as expected and the internal benchmarking provides a clearer picture of the actual computation time, separate from the overhead. For small vector sizes, the overhead is the largest contributor, while for vector sizes multiple magnitudes bigger, the runtime itself is the main contributor.
+the runtime is almost negligible, under 0.0002 s, while the real time is 0.004 s, indicating that initialisation and I/O overhead are large at these sizes. As the vector size increases, the runtime grows roughly linearly with the number of elements, reaching nearly 1 
+s for 10^8 elements as seen in Table 2. The external real, user and system times also increase but the internal runtime is quicker for each test, suggesting that most of the execution cost is from computation. 
 
 Table 2: Internal (runtime) and external (real, user and system time) benchmarking time values for non-trivial code (vector_serial_new) for varying numbers of vector elements
 | Vector Elements | Runtime (s) | Real time (s) | User time (s) | System time (s) |
@@ -78,15 +79,25 @@ Table 2: Internal (runtime) and external (real, user and system time) benchmarki
 | 10⁷             | 0.099800         | 0.104000           | 0.084000           | 0.017000          |
 | 10⁸             | 0.946265         | 0.945000           | 0.772000           | 0.172000          |
 
+Overall, this shows that `vector_serial_new.c` scales as expected and the internal benchmarking provides a clearer picture of the actual computation time, separate from the overhead. For small vector sizes, the overhead is the largest contributor, while for vector 
+sizes multiple magnitudes bigger, the runtime itself is the main contributor.
+
 #### (c) Parallel Version (vector_parallel.c)
 
-First, the MPI environment is initialised by getting the rank and total number of processes. Only the root process (rank 0) reads the command-line argument and allocates the full vector, which is then filled with values similar to the serial version. Next, the vector is split into chunks so each process approximately gets an equal number of elements, with any extra sent to higher ranks. Each process allocates memory for its own local chunk. The "MPI_Scatterv" function is used to distribute the chunks from the root to all processes. Each process then computes the sum of its chunk locally. These partials are combined using "MPI_Reduce". This collects all local sums and produces the total sum on rank 0. Lastly, rank 0 prints the final total sum and all the allocated memory is freed before calling "MPI_Finalize". Four processors were used when running the code for benchmarking.
+First, the MPI environment is initialised by getting the rank and total number of processes. Only the root process (rank 0) reads the command-line argument and allocates the full vector, which is then filled with values similar to the serial version. Next, the vector 
+is split into chunks so each process approximately gets an equal number of elements, with any extra sent to higher ranks. Each process allocates memory for its own local chunk. The "MPI_Scatterv" function is used to distribute the chunks from the root to all 
+processes. Each process then computes the sum of its chunk locally. These partials are combined using "MPI_Reduce". This collects all local sums and produces the total sum on rank 0. Lastly, rank 0 prints the final total sum and all the allocated memory is freed 
+before calling "MPI_Finalize". Four processors were used when running the code for benchmarking.
 
 #### (d) Benchmarking
 
-From table 3, the serial base code (vector_serial) doesn’t actually compute sums, which is why all its sums are zero. The real time is seen to be equal for 10^1 to 10^6 elements or lower (10^7 and 10^8) than the non-trivial version. This is because it only has to add up values of 0's in the vector. This happens not just in the tested range but for all vector sizes as the base code converts all elements to 0. The updated serial code (vector_serial_new) correctly computes sums up to very large numbers using "long long" and was tested from 10^1 to 10^8. Its real time stays very low (0.004 s) for small vectors and only starts increasing noticeably at 10^7 and above. 
+From table 3, the serial base code (vector_serial) doesn’t actually compute sums, which is why all its sums are zero. The real time is seen to be equal for 10^1 to 10^6 elements or lower (10^7 and 10^8) than the non-trivial version. This is because it only has to add 
+up values of 0's in the vector. This happens not just in the tested range but for all vector sizes as the base code converts all elements to 0. The updated serial code (vector_serial_new) correctly computes sums up to very large numbers using "long long" and was 
+tested from 10^1 to 10^8. Its real time stays very low (0.004 s) for small vectors and only starts increasing noticeably at 10^7 and above. 
 
-The parallel version (vector_parallel) has higher overhead for small vectors as seen in Table 3. For example, with 10^1 to 10^4 elements, it takes around 0.400 s compared to 0.004 s for the serial version. This shows that MPI communication and setup increase the runtime for small vectors. As the vector size grows, the parallel version starts to catch up to the serial version. By 10^7 or 10^8 elements, its real time approaches that of vector_serial_new. Even at 10^8, the parallel version is slightly slower in real time (1.137 s vs 0.945 s as seen in Table 3), though it spreads the computation across processes.
+The parallel version (vector_parallel) has higher overhead for small vectors as seen in Table 3. For example, with 10^1 to 10^4 elements, it takes around 0.400 s compared to 0.004 s for the serial version. This shows that MPI communication and setup increase the 
+runtime for small vectors. As the vector size grows, the parallel version starts to catch up to the serial version. By 10^7 or 10^8 elements, its real time approaches that of vector_serial_new. Even at 10^8, the parallel version is slightly slower in real time (1.137 
+s vs 0.945 s as seen in Table 3), though it spreads the computation across processes.
 
 Table 3: Real, user and system times of base (vector_serial), non-trivial (vector_serial_new) and parallel (vector_parallel) code for varying numbers of vector elements
 | Program | Vector Elements | Sum | Real time (s) | User time (s) | System  time (s) |
@@ -116,7 +127,8 @@ Table 3: Real, user and system times of base (vector_serial), non-trivial (vecto
 | vector_serial_new | 10⁸             | 5000000050000000  | 0.945              | 0.772              | 0.172             |
 | vector_parallel   | 10⁸             | 5000000050000000  | 1.137              | 2.437              | 0.541             |
 
-From these results, the parallel version real time does not outperform the non-trivial serial version within the tested range. Even for vector sizes greater than 10^8, it is likely that the parallel code will continue to lag behind on this system. This suggests that the program does not scale well with the current setup and that a larger or more complex parallel system would be required to achieve a clear improvement.
+From these results, the parallel version real time does not outperform the non-trivial serial version within the tested range. Even for vector sizes greater than 10^8, it is likely that the parallel code will continue to lag behind on this system. This suggests that 
+the program does not scale well with the current setup and that a larger or more complex parallel system would be required to achieve a clear improvement.
 
 ## Directory Layout:
 ```
