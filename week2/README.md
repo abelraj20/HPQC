@@ -1,13 +1,7 @@
 ## Code Instructions
 The source code for this project is located in the week2/src/ folder. To compile the C programs, navigate to week2/src/ and run `gcc time_write.c -o ../../bin/time_write` for the write program and `gcc time_read.c -o 
-../../bin/time_read` for the read program; this places the
-compiled binaries in the bin/ folder, which is two levels above src/. To run the C programs, navigate to the root project directory, where bin/ and data/ are located. The write program is executed with a numeric argument, 
-for example `time ./bin/time_write 23`, which generates 
-an output file named `c_output_23.txt` in the data/ folder, while the read program is executed with the filename as an argument, for example `time ./bin/time_read c_output_23.txt`. The Python programs are run from the 
-week2/src/ folder: `time_write.py` is executed with a 
-numeric argument, for example `time python3 time_write.py 23`, producing `p_output_23.txt` in the data/ folder, and `time_read.py` is executed with the output filename as an argument, for example `time python3 time_read.py 
-p_output_23.txt`. All outputs are stored in the 
-`data/` folder, and the `bin/` folder contains the compiled C binaries. An example of how the directory layout should look is shown below.
+../../bin/time_read` for the read program; this places the compiled binaries in the bin/ folder, which is two levels above src/. To run the C programs, navigate to the root project directory, where bin/ and data/ are located. The write program is executed with a numeric argument, for example `time ./bin/time_write 23`, which generates an output file named `c_output_23.txt` in the data/ folder, while the read program is executed with the filename as an argument, for example `time ./bin/time_read c_output_23.txt`. The Python programs are run from the week2/src/ folder: `time_write.py` is executed with a 
+numeric argument, for example `time python3 time_write.py 23`, producing `p_output_23.txt` in the data/ folder, and `time_read.py` is executed with the output filename as an argument, for example `time python3 time_read.py p_output_23.txt`. All outputs are stored in the `data/` folder, and the `bin/` folder contains the compiled C binaries. An example of how the directory layout should look is shown below.
 
 ## Results and Analysis – Week 2
 This code investigates the performance differences between C and Python when performing basic file input/output (I/O) operations. Two pairs of programs were written: one pair to write a sequence of integers to a file and 
