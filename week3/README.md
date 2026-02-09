@@ -16,6 +16,7 @@ This happened regardless of the number of simulated ranks due to it always execu
 peak of 0.473 seconds for 16 processes. The user and system times for MPI also increased significantly with the process count, exceeding the real time at higher numbers. 
 
 <div align="center">
+    
 Table 1: Real, user and system times for serial execution (hello_mpi_serial.c) and MPI parallel execution (hello_mpi.c) of the Hello World program for varying numbers of processes
 | Program (.c) | Processes / Simulated ranks | Real time (s) | User time (s) | System  time (s) |
 | :--------: | :-----------------: | :---------------: | :----------------: | :---------------: |
@@ -27,6 +28,7 @@ Table 1: Real, user and system times for serial execution (hello_mpi_serial.c) a
 | Parallel   | 12              | 0.449             | 0.311              | 0.340             |
 | Serial     | 16              | 0.004             | 0.000              | 0.004             |
 | Parallel   | 16              | 0.473             | 0.360              | 0.496             |
+
 </div>
 
 From Table 1, at 16 processes, the user time is 0.360 seconds and the system time is 0.496 seconds. This gave a total CPU time greater than the clock time. This showed that multiple cores were active at the same time, even for these small workloads. This also showed 
