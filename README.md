@@ -1,1 +1,1 @@
-All work is related to the High Performance and Quantum Computing module during final year of Physics with Data Analytics at Dublin City University (DCU). Acknowledgements to Dr Oisin Creaner for reviewing this work.
+All work is related to the High Performance and Quantum Computing module taken during final year of Physics with Data Analytics at Dublin City University (DCU). Acknowledgements to Dr Oisin Creaner for reviewing this work.
