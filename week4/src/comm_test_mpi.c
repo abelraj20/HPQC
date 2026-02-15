@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <mpi.h>
 
-// prototypes
-
 // function to initialise MPI and get rank & size
 void mpi_initialize(int *argc, char ***argv, int *my_rank, int *uni_size)
 {
@@ -14,9 +12,11 @@ void mpi_initialize(int *argc, char ***argv, int *my_rank, int *uni_size)
     MPI_Comm_size(MPI_COMM_WORLD, uni_size);
 }
 
+// prototypes for functions called in main
 void root_task(int my_rank, int uni_size, int count, int tag);
 void client_task(int my_rank, int uni_size, int count, int tag);
-void check_task(int my_rank, int uni_size, int count, int tag);  // prototype
+void check_task(int my_rank, int uni_size, int count, int tag);
+void error_check(int uni_size); 
 
 int main(int argc, char **argv) 
 {
@@ -34,7 +34,7 @@ int main(int argc, char **argv)
     return 0;
 }
 
-// root_task definition
+// root_task function
 void root_task(int my_rank, int uni_size, int count, int tag)
 {
     int recv_message, source;
@@ -48,7 +48,7 @@ void root_task(int my_rank, int uni_size, int count, int tag)
     }
 }
 
-// client_task definition
+// client_task function
 void client_task(int my_rank, int uni_size, int count, int tag)
 {
     int dest = 0;
@@ -58,7 +58,7 @@ void client_task(int my_rank, int uni_size, int count, int tag)
            my_rank, uni_size, send_message, dest);
 }
 
-// check_task definition (after client_task)
+// check_task function to differentiate root and client tasks
 void check_task(int my_rank, int uni_size, int count, int tag)
 {
     if (uni_size > 1)
@@ -70,6 +70,13 @@ void check_task(int my_rank, int uni_size, int count, int tag)
     }
     else
     {
-        printf("Unable to communicate with less than 2 processes. MPI communicator size = %d\n", uni_size);
+        error_check(uni_size);
     }
 }
+
+// error_check function
+void error_check(int uni_size)
+{
+    printf("Unable to communicate with less than 2 processes. MPI communicator size = %d\n", uni_size);
+}
+
