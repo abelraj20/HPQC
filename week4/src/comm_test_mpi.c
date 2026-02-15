@@ -12,6 +12,10 @@ void mpi_initialize(int *argc, char ***argv, int *my_rank, int *uni_size)
     MPI_Comm_size(MPI_COMM_WORLD, uni_size);
 }
 
+// prototypes for functions called in main
+void root_task(int my_rank, int uni_size, int count, int tag);
+void client_task(int my_rank, int uni_size, int count, int tag);
+
 int main(int argc, char **argv) 
 {
     // declare and initialise error handling variable
@@ -24,11 +28,9 @@ int main(int argc, char **argv)
     mpi_initialize(&argc, &argv, &my_rank, &uni_size);
 
     // creates and initialies transmission variables
-    int send_message, recv_message, count, dest, source, tag;
-    send_message = recv_message = dest = source = tag = 0;
-    count = 1;
-    MPI_Status status;
-    
+    int count = 1;
+    int tag = 0;
+
     if (uni_size > 1)
     {
         if (0 == my_rank)
@@ -38,18 +40,8 @@ int main(int argc, char **argv)
         }
         else
         {
-            // sets the destination for the message
-            dest = 0; // destination is root
-
-            // creates the message
-            send_message = my_rank * 10;
-
-            // sends the message
-            MPI_Send(&send_message, count, MPI_INT, dest, tag, MPI_COMM_WORLD);
-
-            // prints the message from the sender
-            printf("Hello, I am %d of %d. Sent %d to Rank %d\n",
-                    my_rank, uni_size, send_message, dest);
+            // call client task function
+            client_task(my_rank, uni_size, count, tag);
         }
     }
     else
@@ -84,3 +76,19 @@ void root_task(int my_rank, int uni_size, int count, int tag)
     }
 }
 
+// function for worker ranks to send messages to root
+void client_task(int my_rank, int uni_size, int count, int tag)
+{
+    // sets the destination for the message
+    int dest = 0; // destination is root
+
+    // creates the message
+    int send_message = my_rank * 10;
+
+    // sends the message
+    MPI_Send(&send_message, count, MPI_INT, dest, tag, MPI_COMM_WORLD);
+
+    // prints the message from the sender
+    printf("Hello, I am %d of %d. Sent %d to Rank %d\n",
+           my_rank, uni_size, send_message, dest);
+}
