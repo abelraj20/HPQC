@@ -25,6 +25,8 @@ Python showed similar trends, though with slightly higher runtimes. In table 1, 
 slightly slower than the C program. Regardless of the input size of the argument for the Python code, the real time had a value of at least 0.033 seconds. This difference shows the overhead of Python’s interpreter and its 
 higher-level file I/O operations. 
 
+<div align="center">
+    
 Table 1: Runtime and Real time values for Python and C file-writing and -reading code
 | Input Size | time_write.c runtime (s) | time_write.c real time (s) | time_write.py runtime (s) | time_write.py real time (s) | time_read.c runtime (s) | time_read.c real time (s) | time_read.py runtime (s) | time_read.py real time (s) |
 | :--------: | :-----------------: | :---------------: | :----------------: | :---------------: | :-----------------: | :---------------: | :----------------: | :---------------: |
@@ -33,6 +35,8 @@ Table 1: Runtime and Real time values for Python and C file-writing and -reading
 | 10³        | 0.003               | 0.002             | 0.005              | 0.035             | 0.000252            | 0.000211          | 0.000542           | 0.036000          |
 | 10⁴        | 0.010               | 0.009             | 0.015              | 0.036             | 0.011000            | 0.010000          | 0.001530           | 0.038000          |
 | 10⁵        | 0.021               | 0.018             | 0.032              | 0.065             | 0.016000            | 0.110000          | 0.002524           | 0.058000          |
+
+</div>
 
 A second set of experiments focused on reading data from the files that were previously created. In both languages, the program read the entire contents of the file into memory and measured the runtime for the operation. 
 For the C implementation (time_read.c), file reading was 
