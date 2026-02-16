@@ -138,8 +138,9 @@ As the vector size increases, clearer trends emerge. At 10^5 elements, Scatter (
 at 10^6 where Broadcast takes ~0.017 s compared to ~0.011 s for Scatter and ~0.014 s for DIY. At the largest tested size, 10^8, Scatter is the fastest at ~0.747 s, followed closely by DIY 
 at ~0.795 s, while Broadcast is slowest at 1.106 s. The Broadcast time is seen to be ~48% slower than Scatter at a vector size of 10^8.
 
-Table 4. Benchmark comparison of MPI communication strategies for parallel vector summation using 4 processes. Execution times are the total parallel runtimes.
+<div align="center">
 
+Table 4. Benchmark comparison of MPI communication strategies for parallel vector summation using 4 processes. Execution times are the total parallel runtimes.
 | Vector Size | Scatter (s) | Broadcast (s) | DIY (Send/Recv) (s) |
 |-------------|-------------|---------------|---------------------|
 | 10¹         | 0.000210    | 0.000190      | 0.000257            |
@@ -151,11 +152,36 @@ Table 4. Benchmark comparison of MPI communication strategies for parallel vecto
 | 10⁷         | 0.080731    | 0.113574      | 0.086947            |
 | 10⁸         | 0.746653    | 1.105556      | 0.795407            |
 
-These results show that for large vectors, methods that distribute only the required chunks (Scatter and DIY) scale better than broadcasting the entire array to all processes. Scatter 
-performs best overall at large sizes, suggesting that MPI’s optimised collective communication provides more efficient data distribution than manual point-to-point messaging.
+</div>
+
+These results show that for large vectors, methods that distribute only the required chunks (Scatter and DIY) scale better than broadcasting the entire array to all processes which 
+was what I had predicted. Scatter performs best overall at large sizes, suggesting that MPI’s optimised collective communication provides more efficient data distribution than manual 
+point-to-point messaging.
 
 #### Step 2
+From Table 5, it is clear that the performance of MPI communication methods depends heavily on the size of the vector. For small vectors (10¹–10³), all three methods - Send/Recv, 
+Gather, and Reduce perform almost identically because the communication overhead overshadows the runtime. As the vector size increases (10⁴–10⁵), Send/Recv and Gather start to take 
+noticeably longer, while Reduce becomes faster. This is because it combines the sum with communication and avoids looping over data on the root process.
 
+<div align="center">
+
+Table: Comparison of Send/Recv, Gather, and Reduce timings for vectors of increasing size (in seconds)
+| Vector Size | Send/Recv | Gather   | Reduce   |
+|------------:|----------:|---------:|---------:|
+| 10¹         | 0.000219  | 0.000142 | 0.000110 |
+| 10²         | 0.000105  | 0.000100 | 0.000147 | 
+| 10³         | 0.000058  | 0.000201 | 0.000101 |
+| 10⁴         | 0.000308  | 0.000349 | 0.000211 |
+| 10⁵         | 0.001152  | 0.002090 | 0.000296 |
+| 10⁶         | 0.010505  | 0.009376 | 0.001717 |
+| 10⁷         | 0.097530  | 0.082139 | 0.012302 |
+| 10⁸         | 0.932199  | 0.769110 | 0.078092 |
+
+</div>
+
+For large vectors (10⁶–10⁸), the difference becomes even more pronounced: Send/Recv is the slowest due to the root receiving messages individually from each process, Gather is better 
+but still requires transferring full chunks to the root and Reduce is clearly the fastest by an order of a magnitude as seen in Table 5. Overall, Reduce is the most efficient choice 
+for large-scale vector summation just as predicted, while Send/Recv is only practical for very small vectors or when precise control of communication is needed.
 
 #### Step 3
 
