@@ -158,7 +158,7 @@ These results show that for large vectors, methods that distribute only the requ
 was what I had predicted. Scatter performs best overall at large sizes, suggesting that MPI’s optimised collective communication provides more efficient data distribution than manual 
 point-to-point messaging.
 
-#### Step 2
+#### Step 2:
 From Table 5, it is clear that the performance of MPI communication methods depends heavily on the size of the vector. For small vectors (10¹–10³), all three methods - Send/Recv, 
 Gather, and Reduce perform almost identically because the communication overhead overshadows the runtime. As the vector size increases (10⁴–10⁵), Send/Recv and Gather start to take 
 noticeably longer, while Reduce becomes faster. This is because it combines the sum with communication and avoids looping over data on the root process.
@@ -183,7 +183,7 @@ For large vectors (10⁶–10⁸), the difference becomes even more pronounced: 
 but still requires transferring full chunks to the root and Reduce is clearly the fastest by an order of a magnitude as seen in Table 5. Overall, Reduce is the most efficient choice 
 for large-scale vector summation just as predicted, while Send/Recv is only practical for very small vectors or when precise control of communication is needed.
 
-#### Step 3
+#### Step 3:
 
 
 ## Directory Layout:
