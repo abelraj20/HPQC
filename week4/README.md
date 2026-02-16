@@ -115,8 +115,8 @@ increase reflects the additional time required to transmit larger amounts of dat
 
 <p align="center">
     
-Figure 1: Average ping-pong time versus message size for `pingpong_2.c`. Filled circles are the measured data for 10⁴ pings and the black line is a linear fit used to estimate latency and bandwidth.
 <img src="images/pingpong_plot.png" alt="Ping-pong plot" width="600">
+Figure 1: Average ping-pong time versus message size for `pingpong_2.c`. Filled circles are the measured data for 10⁴ pings and the black line is a linear fit used to estimate latency and bandwidth.
 
 </p>
 
