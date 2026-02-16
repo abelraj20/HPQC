@@ -70,7 +70,7 @@ the argument. The program measures the time using MPI’s internal timing functi
 
 Table 2: `pingpong.c` Timing Results for Increasing Numbers of Pings
 | No. of Pings | Elapsed Time (s) | Avg. Time per Ping-Pong (s)|
-|:--------------:|:------------------:|:----------------------------:|
+|:------------:|:-----------------:|:------------------------:|
 | 10¹          | 0.000037         | 0.000004                   |
 | 10²          | 0.000254         | 0.000003                   |
 | 10³          | 0.000936         | 0.000001                   |
@@ -95,7 +95,7 @@ message size affects MPI communication latency and bandwidth.
     
 Table 3: `pingpong_2.c` Timing Results for 10⁴ Pings at Increasing Message Sizes
 | Message size (Bytes) | Elapsed time (s) | Avg. Time per Ping-Pong (s) |
-|:----------------------:|:------------------:|:----------------------------:|
+|:--------------------:|:----------------:|:---------------------------:|
 | 8                    | 0.008566         | 0.000001                   |
 | 64                   | 0.011701         | 0.000001                   |
 | 512                  | 0.013078         | 0.000001                   |
@@ -142,7 +142,7 @@ at ~0.795 s, while Broadcast is slowest at 1.106 s. The Broadcast time is seen t
 
 Table 4. Benchmark comparison of MPI communication strategies for parallel vector summation using 4 processes. Execution times are the total parallel runtimes.
 | Vector Size | Scatter (s) | Broadcast (s) | DIY (Send/Recv) (s) |
-|:-------------:|:-------------:|:---------------:|:---------------------:|
+|:-----------:|:-----------:|:-------------:|:-------------------:|
 | 10¹         | 0.000210    | 0.000190      | 0.000257            |
 | 10²         | 0.000166    | 0.000088      | 0.000108            |
 | 10³         | 0.000231    | 0.000126      | 0.000160            |
@@ -167,7 +167,7 @@ noticeably longer, while Reduce becomes faster. This is because it combines the 
 
 Table: Comparison of Send/Recv, Gather, and Reduce timings for vectors of increasing size (in seconds)
 | Vector Size | Send/Recv (s) | Gather (s) | Reduce (s) |
-|:-------------:|:-------------:|:------------:|:------------:|
+|:-----------:|:-------------:|:----------:|:----------:|
 | 10¹         | 0.000219    | 0.000142   | 0.000110   |
 | 10²         | 0.000105    | 0.000100   | 0.000147   |  
 | 10³         | 0.000058    | 0.000201   | 0.000101   |
