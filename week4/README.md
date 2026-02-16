@@ -4,7 +4,7 @@
 ## Results and Analysis – Week 4
 ### Part 1:
 #### Step 1:
-As the number of MPI processes increases, the program continues to function correctly, but the order that the messages are printed becomes less predictable. When running the program with 4, 8, 12 and 16 processors, each 
+For `comm_test_mpi.c`, as the number of MPI processes increases, the program continues to function correctly, but the order that the messages are printed becomes less predictable. When running the program with 4, 8, 12 and 16 processors, each 
 client rank successfully sends its value to the root (rank 0) and the root receives one message from every other process. This shows that the communication pattern is working as intended and scales well with the number of 
 processors.
 
