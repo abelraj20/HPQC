@@ -127,3 +127,27 @@ From Figure 1, using a linear fit to the data, the intercept (c) gives the laten
 message sizes and average times acting as arguments, m and c is retrieved. This gives a latency of 5.72 μs (2.86 μs for one-way) and a bandwidth of 3775.98 MB/s. As a result, small messages are dominated by latency and 
 as message size grows, the communication time is limited by the available bandwidth. Overall, this experiment shows the importance of both latency and bandwidth in MPI communication and provides a clear quantitative 
 method for evaluating performance.
+
+### Part 3:
+
+
+## Directory Layout:
+```
+project_root/
+├── bin/                         # compiled MPI and C code goes here
+│   ├── comm_test_mpi
+|   ├── comm_vars_mpi
+|   ├── comm_timed_mpi
+|   ├── pingpong
+│   └── pingpong_2
+└── week4/
+    ├── images/
+    │   └── pingpong_plot.png    # saved images go here
+    └── src/                     # source code is here
+        ├── comm_test_mpi.c
+        ├── comm_vars_mpi.c
+        ├── comm_timed_mpi.c
+        ├── pingpong.c
+        ├── pingpong_2.c
+        └── pingpong_plot.py
+```
