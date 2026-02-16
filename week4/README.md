@@ -116,7 +116,12 @@ increase reflects the additional time required to transmit larger amounts of dat
 <p align="center">
 <img src="images/pingpong_plot.png" alt="Ping-pong plot" width="600">
 </p>
+
+<div align="center">
+    
 Figure 1: Average ping-pong time versus message size for `pingpong_2.c`. Filled circles are the measured data for 10⁴ pings and the black line is a linear fit used to estimate latency and bandwidth.
+
+</div>
 
 From Figure 1, using a linear fit to the data, the intercept (c) gives the latency of the system and the inverse of the slope (m) gives the bandwidth. Using `np.polyfit` with a degree of 1 (linear) and the array of 
 message sizes and average times acting as arguments, m and c is retrieved. This gives a latency of 5.72 μs (2.86 μs for one-way) and a bandwidth of 3775.98 MB/s. As a result, small messages are dominated by latency and 
