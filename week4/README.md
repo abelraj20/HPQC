@@ -18,7 +18,7 @@ MPI. This does the same as the original code but makes it cleaner and easier to 
 "https://github.com/abelraj20/HPQC/commits/main/week4/src/comm_test_mpi.c" for more details.
 
 #### Step 3:
-When the program was modified to use the four variants of the send operation defined in the Message Passing Interface - `MPI_Ssend()`, `MPI_Bsend()`, `MPI_Rsend()` and `MPI_Isend()`, the overall 
+The program was modified to `comm_vars_mpi.c` to use the four variants of the send operation defined in the Message Passing Interface - `MPI_Ssend()`, `MPI_Bsend()`, `MPI_Rsend()` and `MPI_Isend()`. The overall 
 communication pattern remained the same but some of them behaved differently. With `MPI_Ssend()`, communication was very reliable because the call is synchronous and blocks until 
 the matching receive is posted by the root process. This resulted in consistent execution with no runtime issues. `MPI_Bsend()` also worked correctly once buffering was properly 
 configured. `MPI_Rsend()` was more situational since it assumes that a matching receive has already been posted. Its correctness depended on timing and in some runs, there would be an outcome error  
