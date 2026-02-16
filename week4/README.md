@@ -69,14 +69,14 @@ the argument. The program measures the time using MPI’s internal timing functi
 <div align="center">
 
 Table 2: `pingpong.c` Timing Results for Increasing Numbers of Pings
-| No. of Pings | Total Elapsed Time (s) | Avg. Time per Ping-Pong (s)|
-|--------------|------------------------|----------------------------|
-| 10¹          | 0.000037               | 0.000004                   |
-| 10²          | 0.000254               | 0.000003                   |
-| 10³          | 0.000936               | 0.000001                   |
-| 10⁴          | 0.007543               | 0.000001                   |
-| 10⁵          | 0.063761               | 0.000001                   |
-| 10⁶          | 0.651149               | 0.000001                   |
+| No. of Pings | Elapsed Time (s) | Avg. Time per Ping-Pong (s)|
+|--------------|------------------|----------------------------|
+| 10¹          | 0.000037         | 0.000004                   |
+| 10²          | 0.000254         | 0.000003                   |
+| 10³          | 0.000936         | 0.000001                   |
+| 10⁴          | 0.007543         | 0.000001                   |
+| 10⁵          | 0.063761         | 0.000001                   |
+| 10⁶          | 0.651149         | 0.000001                   |
 
 </div>
 
@@ -84,3 +84,26 @@ From Table 2, it can be observed that as the number of pings increases, the tota
 converges to approximately 0.000001 s (1 µs) for larger numbers of pings. For small numbers of pings (10–100), there is some variability in timing due to measurement precision. As the number of iterations increases to 10³ 
 and above, this variance becomes negligible, indicating that the measured communication time per ping-pong converges to a stable and reproducible value. These results demonstrate that `MPI_Send` and `MPI_Recv` provide 
 reliable and predictable performance for repeated point-to-point communications and the timing converges as the number of ping-pong iterations become 1000 and above.
+
+#### Step 3:
+For this experiment, I extended the original `pingpong.c` program to handle arrays of varying sizes using dynamic memory allocation (malloc). The program, pingpong_2.c, takes two arguments: the number of ping-pong iterations and the size of the message in bytes. Each iteration involves sending the array from the root process to the client process and back, with the first element of the array serving as a counter to track the number of completed iterations. Timing was measured using MPI_Wtime() at the root process, and the average time per ping-pong was calculated by dividing the total elapsed time by the number of iterations. This approach allows the experiment to measure how message size affects MPI communication latency and bandwidth.
+
+Table 3: `pingpong_2.c` Timing Results for 10⁴ Pings at Increasing Message Sizes
+| Message size (bytes) | Elapsed time (s) | Avg. Time per Ping-Pong (s) |
+|----------------------|------------------|----------------------------|
+| 8                    | 0.008566         | 0.000001                   |
+| 64                   | 0.011701         | 0.000001                   |
+| 512                  | 0.013078         | 0.000001                   |
+| 4096                 | 0.106751         | 0.000011                   |
+| 32768                | 0.169061         | 0.000017                   |
+| 262144               | 0.798168         | 0.000080                   |
+| 524288               | 1.494146         | 0.000149                   |
+| 1048576              | 2.827135         | 0.000283                   |
+| 1572864              | 4.229262         | 0.000423                   |
+| 2097152              | 5.585534         | 0.000559                   |
+
+The results in Table 3 show a clear trend for very small messages (8–512 bytes), where the average ping-pong time remains roughly constant at around 1 μs. This is likely due to the latency. As the message size increases, the time per ping-pong grows roughly linearly. For example, sending a 4 KiB array takes around 11 μs per iteration, while sending a 2 MiB array requires approximately 559 μs. This increase reflects the additional time required to transmit larger amounts of data over the MPI channel, where bandwidth becomes the limiting factor rather than latency.
+
+Figure 1: Average ping-pong time versus message size for `pingpong_2.c`. Filled circles are the measured data for 10⁴ pings and the black line is a linear fit used to estimate latency and bandwidth.
+
+
