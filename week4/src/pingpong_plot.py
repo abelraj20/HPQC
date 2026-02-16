@@ -52,6 +52,6 @@ plt.ylabel('Average Ping-Pong Time (s)')
 plt.legend()
 plt.tight_layout()
 # save figure
-# plt.savefig("pingpong_plot.png", bbox_inches="tight")
+# plt.savefig("../images/pingpong_plot.png", bbox_inches="tight")
 
 plt.show()

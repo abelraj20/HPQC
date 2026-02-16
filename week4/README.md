@@ -129,6 +129,35 @@ as message size grows, the communication time is limited by the available bandwi
 method for evaluating performance.
 
 ### Part 3:
+#### Step 1:
+As seen in Table 4, for small vector sizes (10^1–10^3), the measured runtimes are all on the order of 10^-4 seconds. The differences between methods are inconsistent and varied 
+depending on the run. For example, for Broadcast and DIY, their execution times for vector sizes of 10^3 are seen to be lower than their execution times for vector sizes of 10^1. 
+This shows that fixed communication overhead and timing noise performance at small scales.
+
+As the vector size increases, clearer trends emerge. At 10^5 elements, Scatter (0.001585 s) and DIY (0.001303 s) are significantly faster than Broadcast (0.002121 s). This gap widens only 
+at 10^6 where Broadcast takes ~0.017 s compared to ~0.011 s for Scatter and ~0.014 s for DIY. At the largest tested size, 10^8, Scatter is the fastest at ~0.747 s, followed closely by DIY 
+at ~0.795 s, while Broadcast is slowest at 1.106 s. The Broadcast time is seen to be ~48% slower than Scatter at a vector size of 10^8.
+
+Table 4. Benchmark comparison of MPI communication strategies for parallel vector summation using 4 processes. Execution times are the total parallel runtimes.
+
+| Vector Size | Scatter (s) | Broadcast (s) | DIY (Send/Recv) (s) |
+|-------------|-------------|---------------|---------------------|
+| 10¹         | 0.000210    | 0.000190      | 0.000257            |
+| 10²         | 0.000166    | 0.000088      | 0.000108            |
+| 10³         | 0.000231    | 0.000126      | 0.000160            |
+| 10⁴         | 0.000342    | 0.000428      | 0.000242            |
+| 10⁵         | 0.001585    | 0.002121      | 0.001303            |
+| 10⁶         | 0.010629    | 0.016813      | 0.013901            |
+| 10⁷         | 0.080731    | 0.113574      | 0.086947            |
+| 10⁸         | 0.746653    | 1.105556      | 0.795407            |
+
+These results show that for large vectors, methods that distribute only the required chunks (Scatter and DIY) scale better than broadcasting the entire array to all processes. Scatter 
+performs best overall at large sizes, suggesting that MPI’s optimised collective communication provides more efficient data distribution than manual point-to-point messaging.
+
+#### Step 2
+
+
+#### Step 3
 
 
 ## Directory Layout:
