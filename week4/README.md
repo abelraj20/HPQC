@@ -35,7 +35,7 @@ depends on the receiver being ready (Rsend) or on proper waiting for the non-blo
     
 Table 1: Runtime measurements and variability for the four MPI send variants (Ssend, Bsend, Rsend, Isend) over five runs using 4 MPI processes.
 | Rank | Communication Type | Min Time (s) | Max Time (s) | Avg Time (s) |
-|:------:|:------------------:|:-------------:|:-------------:|:-------------:|
+|:----:|:-----------------:|:------------:|:------------:|:------------:|
 | 1    | Ssend            | 0.000023    | 0.000049    | 0.000033    |
 | 1    | Bsend            | 0.000003    | 0.000020    | 0.000011    |
 | 1    | Rsend            | 0.000001    | 0.000001    | 0.000001    |
