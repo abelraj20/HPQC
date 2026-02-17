@@ -165,7 +165,7 @@ noticeably longer, while Reduce becomes faster. This is because it combines the 
 
 <div align="center">
 
-Table: Comparison of Send/Recv, Gather, and Reduce timings for vectors of increasing size (in seconds)
+Table: Comparison of Send/Recv, Gather, and Reduce timings using 4 processes for vectors of increasing size
 | Vector Size | Send/Recv (s) | Gather (s) | Reduce (s) |
 |:-----------:|:-------------:|:----------:|:----------:|
 | 10¹         | 0.000219    | 0.000142   | 0.000110   |
