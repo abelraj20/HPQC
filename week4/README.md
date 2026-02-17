@@ -194,7 +194,9 @@ project_root/
 |   ├── comm_vars_mpi
 |   ├── comm_timed_mpi
 |   ├── pingpong
-│   └── pingpong_2
+│   ├── pingpong_2
+│   ├── vector_benchmark1
+│   └── vector_benchamrk2
 └── week4/
     ├── images/
     │   └── pingpong_plot.png    # saved images go here
@@ -204,5 +206,7 @@ project_root/
         ├── comm_timed_mpi.c
         ├── pingpong.c
         ├── pingpong_2.c
-        └── pingpong_plot.py
+        ├── pingpong_plot.py
+        ├── vector_benchmark1.c
+        └── vector_benchamrk2.c
 ```
