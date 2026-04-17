@@ -22,15 +22,18 @@ In `animate_line_file.py`, similar changes were made so the input file and outpu
 ## Directory Layout:
 ```
 project_root/
-├── bin/                         # compiled MPI and C code goes here
+├── bin/                  # compiled C code goes here
+│   ├── time_write
 │   └── custom_reduce
-├── data/                        # CSV file goes here
-│   └── string_wave.csv
-├── output/
-|   └── string.gif               # output goes here
-└── week4/                       # source code is here
-    ├── string_wave.c
-    ├── animate_line.py
-    ├── animate_line_file.py
-    └── src/                    
+├── data/                 # CSV files goes here
+│   ├── string_wave.csv
+│   └── ...
+├── output/               # outputs goes here
+│   ├── string.gif
+│   └── ...
+└── week5/
+    └── src/              # source code is here
+        ├── string_wave.c
+        ├── animate_line.py
+        └── animate_line_file.py
 ```
