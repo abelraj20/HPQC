@@ -18,3 +18,19 @@ In `animate_line_file.py`, similar changes were made so the input file and outpu
 
 
 ### Part 3:
+
+## Directory Layout:
+```
+project_root/
+├── bin/                         # compiled MPI and C code goes here
+│   └── custom_reduce
+├── data/                        # CSV file goes here
+│   └── string_wave.csv
+├── output/
+|   └── string.gif               # output goes here
+└── week4/                       # source code is here
+    ├── string_wave.c
+    ├── animate_line.py
+    ├── animate_line_file.py
+    └── src/                    
+```
