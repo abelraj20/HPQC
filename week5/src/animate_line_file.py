@@ -1,5 +1,6 @@
 import matplotlib
 matplotlib.use('Agg')
+
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
@@ -169,7 +170,7 @@ def configure_rope(length=50, end_point=True, step_size=1, start = 0):
     return x_positions, y_positions
 
 
-def configure_plot(x_positions, y_positions, y_limit=1.1):
+def configure_plot(x_positions, y_positions, y_limit=1.1, plot_title="Simulation of Vibrations in a string"):
     """This function sets up the plot for the animation.  It sets the
     initial x and y values, the title and the limits for the axes.
 
@@ -182,6 +183,8 @@ def configure_plot(x_positions, y_positions, y_limit=1.1):
     Keyword Args:
         y_limit (float): the positive y-axis limit to use in the plot
             Defaults to 1.1
+        plot_title (string): the title shown above the graph
+            Defaults to Simulation of Vibrations in a string
 
     Returns:
         fig (matplotlib.figure.Figure): the figure to be animated
@@ -190,8 +193,9 @@ def configure_plot(x_positions, y_positions, y_limit=1.1):
     # creates the figure and the axis to be plotted
     fig, (ax1) = plt.subplots(1, 1)
 
-    # sets the overall title of the plot
-    ax1.set_title('Simulation of Vibrations in a string')
+    # sets the title of the plot
+    # this uses the output gif name so the title changes automatically
+    ax1.set_title(plot_title)
 
     # sets the x and y limits to be plotted
     ax1.set_ylim(-y_limit, y_limit)
@@ -200,7 +204,7 @@ def configure_plot(x_positions, y_positions, y_limit=1.1):
     rope, = ax1.plot(x_positions, y_positions, "o", markersize=5, color="green", label="points on string")
 
     # creates the legend entry
-    ax1.legend(loc='upper right')
+    ax1.legend(loc='upper left')
 
     # returns the figure and the plot to be animated
     return fig, rope
@@ -388,6 +392,10 @@ def main():
     fps = get_positive_int_argument(position=3, default_value=25, argument_name="fps")
     y_limit = get_positive_float_argument(position=4, default_value=1.1, argument_name="y axis limit")
 
+    # uses the output gif name as the graph title
+    # Path(...).stem just removes the .gif part
+    plot_title = Path(output_filename).stem
+
     # gets the data and its dimensions from the file
     data, num_positions, num_times = get_data(input_filename)
 
@@ -398,7 +406,7 @@ def main():
     x_positions, y_positions = extract_position(data)
 
     # configures the initial state of the plot, including x and y positions of points on the string
-    fig, rope = configure_plot(x_positions, y_positions, y_limit=y_limit)
+    fig, rope = configure_plot(x_positions, y_positions, y_limit=y_limit, plot_title=plot_title)
 
     # initialises the python animation 
     ani = animation.FuncAnimation(fig, animate, num_times, interval=interval, blit=True, # mandatory animation arguments
