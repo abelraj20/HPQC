@@ -1,4 +1,5 @@
 ## Code Instructions
+The source code for this project is located in the `week4/src/` folder, while the compiled executables are stored in the `bin/` folder at the top level of the project. To compile the MPI programs, first navigate to `week4/src/` and then use `mpicc` followed by the file name and output path. For example, `comm_test_mpi.c` can be compiled with `mpicc comm_test_mpi.c -o ../../bin/comm_test_mpi`. The same format can be used for the other MPI programs: `comm_vars_mpi.c`, `comm_timed_mpi.c`, `pingpong.c`, `pingpong_2.c`, `vector_benchmark1.c` and `vector_benchmark2.c`. This places all compiled binaries in the shared `bin/` folder, keeping the source code and executables separate. Once compiled, the programs should be run from the project root directory, where the `bin/` folder is located. MPI programs are executed using `mpirun`, for example `mpirun -np 4 ./bin/comm_test_mpi`, where `-np 4` specifies that 4 MPI processes are used. This value can be changed depending on the experiment, and on the DCU Cheetah server up to 16 processes were used for testing. Programs that require input arguments should be run by adding those values after the executable name. For example, the ping-pong benchmark can be run as `mpirun -np 2 ./bin/pingpong 10000`, while the second ping-pong program with variable message size can be run as `mpirun -np 2 ./bin/pingpong_2 10000 1024`. The custom reduction benchmark is run with a vector size argument, for example `mpirun -np 4 ./bin/custom_reduce 1000000`. For the vector benchmark programs, the numeric argument represents the vector size being tested. These were run repeatedly for increasing sizes such as `10`, `100`, `1000`, up to `100000000` in order to compare the scaling behaviour of the different MPI communication methods. Timing information was measured either internally using `MPI_Wtime()` or externally using `time` where appropriate. This allowed direct comparison of how the programs behaved as the workload increased. The plotting script `pingpong_plot.py` is stored in the same `week4/src/` folder and can be run with Python to generate the figure used in the analysis. For example, from inside `week4/src/`, run `python3 pingpong_plot.py`. The generated image should then be saved in the `week4/images/` folder.
 
 
 ## Results and Analysis – Week 4
@@ -184,7 +185,28 @@ but still requires transferring full chunks to the root and Reduce is clearly th
 for large-scale vector summation just as predicted, while Send/Recv is only practical for very small vectors or when precise control of communication is needed.
 
 #### Step 3:
+From Table 6, both the predefined `MPI_Reduce` operation and the custom reduction created using `MPI_Op_create()` produced the exact same total sum for every vector size tested, so the accuracy was 100% for both methods. This shows that the custom reduction function was implemented correctly and gave the same result as the built-in MPI reduction.
 
+<div align="center">
+
+**Table 6: Comparison of predefined Reduce and custom Reduce timings using 4 processes for vectors of increasing size**
+
+| Vector Size | Reduce (s) | Custom Reduce (s) |
+|:-----------:|:----------:|:-----------------:|
+| 10¹         | 0.000019   | 0.000003 |
+| 10²         | 0.000024   | 0.000002 |
+| 10³         | 0.000004   | 0.000004 |
+| 10⁴         | 0.000003   | 0.000002 |
+| 10⁵         | 0.000016   | 0.000004 |
+| 10⁶         | 0.000022   | 0.000004 |
+| 10⁷         | 0.000016   | 0.000006 |
+| 10⁸         | 0.000003   | 0.000003 |
+
+</div>
+
+For the runtime, the custom reduction was slightly faster than the predefined `MPI_Reduce` for many of the vector sizes (10¹, 10², 10⁴, 10⁵, 10⁶ and 10⁷), although the difference is very small. For the largest vector size (10⁸), both methods had the same speed. Since the timings are all extremely small, these differences are likely due to inherent noise in the code rather than a performance advantage of the custom method.
+
+Overall, both versions performed very similarly, but the main result is that the custom reduction worked correctly and matched the predefined reduction in each case. This means that `MPI_Op_create()` can be used successfully to define a reduction operation, while still achieving essentially the same behaviour as the predefined reduce operation.
 
 ## Directory Layout:
 ```
@@ -196,7 +218,8 @@ project_root/
 |   ├── pingpong
 │   ├── pingpong_2
 │   ├── vector_benchmark1
-│   └── vector_benchamrk2
+│   ├── vector_benchamrk2
+│   └── custom_reduce
 └── week4/
     ├── images/
     │   └── pingpong_plot.png    # saved images go here
@@ -208,5 +231,6 @@ project_root/
         ├── pingpong_2.c
         ├── pingpong_plot.py
         ├── vector_benchmark1.c
-        └── vector_benchamrk2.c
+        ├── vector_benchamrk2.c
+        └── custom_reduce.c
 ```
