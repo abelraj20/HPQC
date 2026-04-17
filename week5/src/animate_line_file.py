@@ -191,7 +191,7 @@ def configure_plot(x_positions, y_positions, y_limit=1.1):
     fig, (ax1) = plt.subplots(1, 1)
 
     # sets the overall title of the plot
-    fig.suptitle('Simulation of Vibrations in a string')
+    ax1.set_title('Simulation of Vibrations in a string')
 
     # sets the x and y limits to be plotted
     ax1.set_ylim(-y_limit, y_limit)
@@ -200,7 +200,7 @@ def configure_plot(x_positions, y_positions, y_limit=1.1):
     rope, = ax1.plot(x_positions, y_positions, "o", markersize=5, color="green", label="points on string")
 
     # creates the legend entry
-    ax1.legend(handles=[rope], bbox_to_anchor=(0, 0), loc='upper left')
+    ax1.legend(loc='upper right')
 
     # returns the figure and the plot to be animated
     return fig, rope
