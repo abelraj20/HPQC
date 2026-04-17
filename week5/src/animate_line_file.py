@@ -204,7 +204,7 @@ def configure_plot(x_positions, y_positions, y_limit=1.1, plot_title="Simulation
     rope, = ax1.plot(x_positions, y_positions, "o", markersize=5, color="green", label="points on string")
 
     # creates the legend entry
-    ax1.legend(loc='upper left')
+    ax1.legend(loc='upper right')
 
     # returns the figure and the plot to be animated
     return fig, rope
