@@ -27,13 +27,13 @@ project_root/
 ├── bin/                  # compiled C code goes here
 │   ├── time_write
 │   └── custom_reduce
-├── data/                 # CSV files goes here
+├── data/                 # CSV files go here
 │   ├── string_wave.csv
 │   └── ...
-├── output/               # outputs goes here
-│   ├── string.gif
-│   └── ...
 └── week5/
+    ├── output/           # outputs go here
+    │   ├── string.gif
+    │   └── ...
     └── src/              # source code is here
         ├── string_wave.c
         ├── animate_line.py
