@@ -1,5 +1,7 @@
 ## Code Instructions
-The source code for this project is located in the `week5/src/` folder, while the compiled executables are stored in the `bin/` folder and outputs are stored in the `output/` folder at the top level of the project.
+## Code Instructions
+
+The source code for this project is stored in `week5/src/`, compiled executables are stored in `bin/`, CSV outputs are stored in `data/` and GIF outputs are stored in `week5/output/`. To compile the programs, first move into `week5/src/` and use `gcc` for the serial codes and `mpicc` for the MPI code. For example, use `gcc string_wave.c -o ../../bin/string_wave -lm`, `mpicc string_wave_mpi.c -o ../../bin/string_wave_mpi -lm` and `gcc update_wave.c -o ../../bin/update_wave -lm`. Once compiled, the programs can be run from the project root directory. The original serial model is run as for example `./bin/string_wave 100 5 25 data/serial_100.csv`. The MPI version is run as for example `mpirun -np 4 ./bin/string_wave_mpi 100 5 25 data/mpi_100.csv`. The updated model is run as for example `./bin/update_wave 100 5 25 data/update_wave_100.csv`. Benchmarking was carried out by varying the number of simulated points, using values such as `100`, `1000`, `5000`, `10000`, `50000`, `100000`, `200000` and `500000`. For MPI scaling tests, the point count was fixed at `50000` while the number of processes was varied from `1` to `16`. Timing was measured using `time`. The script `animate_line_file.py`, also stored in `week5/src/`, was used to convert CSV outputs into GIFs, for example from the top level of the directory `python3 week5/src/animate_line_file.py data/serial_100.csv "week5/output/100 Points (Serial).gif"`.
 
 ## Results and Analysis – Week 5
 ### Part 1:
@@ -20,9 +22,9 @@ For the aggregation strategy, it is not safe to let every MPI process write to t
 A new MPI version of the program was made by modifying it so it can run across multiple processes. The program now uses `MPI_Init()` and `MPI_Finalize()` to start and end MPI and each process works on a local chunk of the string instead of the whole array. At every time step, neighbouring ranks exchange one value so the chunk boundaries are updated correctly and then the local results are gathered back to rank 0 for output.
 
 #### Part 4:
-For small simulations, the serial version performs much better than the MPI version. At 100 points, the serial code runs in 0.016 s compared to 0.441 s for the MPI version, and the same pattern holds at 1000, 5000 and 10000 points as seen in Table 1. This shows that, at these sizes, the communication, gathering and file-writing overhead in the MPI version is larger than the benefit of dividing the work between processes.
+For small simulations, the serial version performs much better than the MPI version. At 100 points, the serial code runs in 0.016 s compared to 0.441 s for the MPI version and the same pattern holds at 1000, 5000 and 10000 points as seen in Table 1. This shows that, at these sizes, the communication, gathering and file-writing overhead in the MPI version is larger than the benefit of dividing the work between processes.
 
-As the number of points increases, the gap between the two versions becomes smaller. At 50000 points, the serial version takes 1.937 s while the parallel version takes 2.501 s, and by 500000 points the MPI version becomes slightly faster, taking 16.992 s compared to 17.568 s for the serial code. This shows that parallelisation only becomes applicable once the problem size is big enough for the extra computation to outweigh the MPI overhead.
+As the number of points increases, the gap between the two versions becomes smaller. At 50000 points, the serial version takes 1.937 s while the parallel version takes 2.501 s and by 500000 points the MPI version becomes slightly faster, taking 16.992 s compared to 17.568 s for the serial code. This shows that parallelisation only becomes applicable once the problem size is big enough for the extra computation to outweigh the MPI overhead.
 
 The user and system times are also noticeably higher for the MPI runs, which shows the cost of message passing between neighbouring ranks and gathering it back to rank 0 at every time step. Overall, the results show that the MPI implementation works, but it is only useful for larger simulations.
 
@@ -30,7 +32,7 @@ The user and system times are also noticeably higher for the MPI runs, which sho
     
 Table 1: Real, user and system times for serial execution (`string_wave.c`) and MPI parallel execution (`string_wave_mpi.c`) with 4 processes, for varying numbers of sizes
 
-| Program (.c) | Simulated points | Real time (s) | User time (s) | System time (s) |
+| Program (.c) | Points | Real time (s) | User time (s) | System time (s) |
 | :--------: | :--------------: | :-----------: | :-----------: | :-------------: |
 | Serial     | 100              | 0.016         | 0.008         | 0.004           |
 | Parallel   | 100              | 0.441         | 0.181         | 0.146           |
@@ -51,7 +53,7 @@ Table 1: Real, user and system times for serial execution (`string_wave.c`) and 
 
 </div>
 
-At 50000 points, increasing the number of MPI processes does not improve the runtime. For 1 process, the run takes 2.409 s, while the 2, 4 and 8 process runs remain very similar, and the 16 process run is slower again at 2.799 s as seen in Table 2. This shows that adding more processes does not make the program faster.
+At 50000 points, increasing the number of MPI processes does not improve the runtime. For 1 process, the run takes 2.409 s, while the 2, 4 and 8 process runs remain very similar and the 16 process run is slower again at 2.799 s as seen in Table 2. This shows that adding more processes does not make the program faster.
 
 Although the computation is split into smaller chunks, the communication overhead also increases. At each time step, neighbouring processes must exchange boundary values and rank 0 must gather the full string before writing to the output file. For a size of 50000 points, the overhead is too large to benefit from using more processes.
 
@@ -70,23 +72,49 @@ Table 2: Real, user and system times for MPI parallel execution (`string_wave_mp
 </div>
 
 ### Part 3
+The main change in `update_wave` was replacing the update with a spring model using position, velocity and acceleration. Instead of each point just taking the previous value of the point before it, the internal points are now updated using Hooke’s law, \(F = -kx\), together with \(F = ma\). This makes the motion more realistic, since each point now responds to the displacement of its neighbouring points rather than simply copying one value along the line.
 
+From Table 3, both versions scale in a very similar way as the number of points increases. The `update_wave` version is slightly faster in most of these runs, even though it includes extra calculations, which suggests that the runtime still comes from looping over the arrays and writing the output CSV file. Overall, the updated model gives a more realistic simulation without a performance disadvantage.
 
-## Directory Layout:
-```
+<div align="center">
+    
+Table 3: Real, user and system times for the original serial model (`string_wave.c`) and the updated spring-based model (`update_wave`) for varying numbers of simulated points
+
+| Simulated points | Original real time (s) | update_wave real time (s) | Original user time (s) | update_wave user time (s) | Original system time (s) | update_wave system time (s) |
+| :--------------: | :--------------------: | :-----------------------: | :--------------------: | :-----------------------: | :----------------------: | :-------------------------: |
+| 100              | 0.016                  | 0.018                     | 0.008                  | 0.007                     | 0.004                    | 0.004                       |
+| 1000             | 0.052                  | 0.051                     | 0.037                  | 0.028                     | 0.000                    | 0.009                       |
+| 5000             | 0.227                  | 0.201                     | 0.135                  | 0.117                     | 0.008                    | 0.024                       |
+| 10000            | 0.504                  | 0.404                     | 0.344                  | 0.255                     | 0.036                    | 0.016                       |
+| 50000            | 1.937                  | 1.899                     | 1.316                  | 1.257                     | 0.052                    | 0.069                       |
+| 100000           | 3.772                  | 3.725                     | 2.585                  | 2.435                     | 0.126                    | 0.210                       |
+| 200000           | 7.593                  | 7.439                     | 5.205                  | 4.949                     | 0.246                    | 0.342                       |
+| 500000           | 17.568                 | 14.401                    | 11.614                 | 12.851                    | 0.534                    | 0.709                       |
+
+</div>
+
+## Directory Layout
+
+```text
 project_root/
 ├── bin/                  # compiled C code goes here
-│   ├── time_write
-│   └── custom_reduce
+│   ├── string_wave
+│   ├── string_wave_mpi
+│   └── update_wave
 ├── data/                 # CSV files go here
-│   ├── string_wave.csv
+│   ├── serial_100.csv
+│   ├── mpi_100.csv
+│   ├── mpi_50000_np4.csv
 │   └── ...
 └── week5/
-    ├── output/           # outputs go here
-    │   ├── string.gif
+    ├── output/           # GIF outputs go here
+    │   ├── 100 Points (Serial).gif
+    │   ├── 100 Points (Parallel).gif
+    │   ├── 50000 Points (Parallel - 4 processes).gif
     │   └── ...
     └── src/              # source code is here
         ├── string_wave.c
-        ├── animate_line.py
+        ├── string_wave_mpi.c
+        ├── update_wave.c
         └── animate_line_file.py
 ```
