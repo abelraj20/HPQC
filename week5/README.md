@@ -94,6 +94,7 @@ Table 3: Real, user and system times for the original serial model (`string_wave
 </div>
 
 ## Directory Layout:
+```
 project_root/
 ├── bin/                  # compiled C code goes here
 │   ├── string_wave
@@ -115,3 +116,4 @@ project_root/
         ├── string_wave_mpi.c
         ├── update_wave.c
         └── animate_line_file.py
+```
