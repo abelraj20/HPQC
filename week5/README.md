@@ -93,8 +93,9 @@ Table 3: Real, user and system times for the original serial model (`string_wave
 
 </div>
 
-## Directory Layout:
-```
+## Directory Layout
+
+```text
 project_root/
 ├── bin/                  # compiled C code goes here
 │   ├── string_wave
