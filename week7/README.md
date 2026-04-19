@@ -10,8 +10,9 @@ In this part, the code demonstrates the main ideas from the tutorial. The `pushQ
 The measurement output is random, so the exact bitstrings change between runs, but the probabilities are consistent with the theory. For example, after a Hadamard gate the probability of measuring `0` or `1` is `[0.5 0.5]`, and for weights `[0.6,0.8]` the probabilities are `[0.36 0.64]`. The named-qubit version also makes the simulator easier to follow, since qubits can be referred to as `Q1`, `Q2`, and so on. The final Toffoli-equivalent example shows that a more complex gate can be built from simpler gates like `H`, `T`, `Tinv` and `CNOT`. Overall, the program worked as intended and gave a good introduction to how a quantum computer simulator can be implemented with NumPy.
 
 ## Directory Layout
-
-`project_root/`
-`└── week7/`
-`    └── src/`
-`        └── quantum_part1.py`
+```text
+project_root/
+└── week7/
+    └── src/
+        └── quantum_part1.py
+```
